@@ -1,0 +1,463 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<!-- build 20194.20.0323.1706                               -->
+<workbook original-version='18.1' source-build='2019.4.5 (20194.20.0323.1706)' source-platform='win' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <document-format-change-manifest>
+    <SheetIdentifierTracking ignorable='true' predowngraded='true' />
+    <WindowsPersistSimpleIdentifiers />
+  </document-format-change-manifest>
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <datasources>
+    <datasource caption='US State Testing Raw' inline='true' name='federated.0vh4rmb1h3yarn172fs4f0m144ix' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='US State Testing Raw' name='textscan.1p29l3m1sjd4qb16ztxjx0m2fn1g'>
+            <connection class='textscan' directory='C:/Users/lubry/Desktop/CSC196v/Final Project' filename='US State Testing Raw.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.1p29l3m1sjd4qb16ztxjx0m2fn1g' name='US State Testing Raw.csv' table='[US State Testing Raw#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='date' name='date' ordinal='0' />
+            <column datatype='string' name='state' ordinal='1' />
+            <column datatype='integer' name='positive' ordinal='2' />
+            <column datatype='integer' name='negative' ordinal='3' />
+            <column datatype='integer' name='pending' ordinal='4' />
+            <column datatype='integer' name='hospitalizedCurrently' ordinal='5' />
+            <column datatype='integer' name='hospitalizedCumulative' ordinal='6' />
+            <column datatype='integer' name='inIcuCurrently' ordinal='7' />
+            <column datatype='integer' name='inIcuCumulative' ordinal='8' />
+            <column datatype='integer' name='onVentilatorCurrently' ordinal='9' />
+            <column datatype='integer' name='onVentilatorCumulative' ordinal='10' />
+            <column datatype='integer' name='recovered' ordinal='11' />
+            <column datatype='string' name='hash' ordinal='12' />
+            <column datatype='datetime' name='dateChecked' ordinal='13' />
+            <column datatype='integer' name='death' ordinal='14' />
+            <column datatype='integer' name='hospitalized' ordinal='15' />
+            <column datatype='integer' name='total' ordinal='16' />
+            <column datatype='integer' name='totalTestResults' ordinal='17' />
+            <column datatype='integer' name='posNeg' ordinal='18' />
+            <column datatype='integer' name='fips' ordinal='19' />
+            <column datatype='integer' name='deathIncrease' ordinal='20' />
+            <column datatype='integer' name='hospitalizedIncrease' ordinal='21' />
+            <column datatype='integer' name='negativeIncrease' ordinal='22' />
+            <column datatype='integer' name='positiveIncrease' ordinal='23' />
+            <column datatype='integer' name='totalTestResultsIncrease' ordinal='24' />
+          </columns>
+        </relation>
+        <metadata-records>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>date</remote-name>
+            <remote-type>133</remote-type>
+            <local-name>[date]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>date</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>date</local-type>
+            <aggregation>Year</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>state</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[state]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>state</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>positive</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[positive]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>positive</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>negative</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[negative]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>negative</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>pending</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[pending]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>pending</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>hospitalizedCurrently</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[hospitalizedCurrently]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>hospitalizedCurrently</remote-alias>
+            <ordinal>5</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>hospitalizedCumulative</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[hospitalizedCumulative]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>hospitalizedCumulative</remote-alias>
+            <ordinal>6</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>inIcuCurrently</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[inIcuCurrently]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>inIcuCurrently</remote-alias>
+            <ordinal>7</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>inIcuCumulative</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[inIcuCumulative]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>inIcuCumulative</remote-alias>
+            <ordinal>8</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>onVentilatorCurrently</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[onVentilatorCurrently]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>onVentilatorCurrently</remote-alias>
+            <ordinal>9</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>onVentilatorCumulative</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[onVentilatorCumulative]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>onVentilatorCumulative</remote-alias>
+            <ordinal>10</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>recovered</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[recovered]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>recovered</remote-alias>
+            <ordinal>11</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>hash</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[hash]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>hash</remote-alias>
+            <ordinal>12</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>dateChecked</remote-name>
+            <remote-type>135</remote-type>
+            <local-name>[dateChecked]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>dateChecked</remote-alias>
+            <ordinal>13</ordinal>
+            <local-type>datetime</local-type>
+            <aggregation>Year</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>death</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[death]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>death</remote-alias>
+            <ordinal>14</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>hospitalized</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[hospitalized]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>hospitalized</remote-alias>
+            <ordinal>15</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>total</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[total]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>total</remote-alias>
+            <ordinal>16</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>totalTestResults</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[totalTestResults]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>totalTestResults</remote-alias>
+            <ordinal>17</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>posNeg</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[posNeg]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>posNeg</remote-alias>
+            <ordinal>18</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>fips</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[fips]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>fips</remote-alias>
+            <ordinal>19</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>deathIncrease</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[deathIncrease]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>deathIncrease</remote-alias>
+            <ordinal>20</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>hospitalizedIncrease</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[hospitalizedIncrease]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>hospitalizedIncrease</remote-alias>
+            <ordinal>21</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>negativeIncrease</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[negativeIncrease]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>negativeIncrease</remote-alias>
+            <ordinal>22</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>positiveIncrease</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[positiveIncrease]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>positiveIncrease</remote-alias>
+            <ordinal>23</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>totalTestResultsIncrease</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[totalTestResultsIncrease]</local-name>
+            <parent-name>[US State Testing Raw.csv]</parent-name>
+            <remote-alias>totalTestResultsIncrease</remote-alias>
+            <ordinal>24</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column caption='State' datatype='string' name='[Calculation_365073092393816064]' role='dimension' type='nominal'>
+        <calculation class='tableau' formula='CASE [state]&#13;&#10;WHEN &apos;AK&apos; THEN &#9;&apos;Alaska&apos;&#13;&#10;WHEN &apos;AL&apos; THEN &#9;&apos;Alabama&apos;&#13;&#10;WHEN &apos;AS&apos; THEN  &apos;American Samoa&apos;&#13;&#10;WHEN &apos;AR&apos; THEN &#9;&apos;Arkansas&apos;&#13;&#10;WHEN &apos;AZ&apos; THEN  &apos;Arizona&apos;&#13;&#10;WHEN &apos;CA&apos; THEN  &apos;California&apos;&#13;&#10;WHEN &apos;CO&apos; THEN  &apos;Colorado&apos;&#13;&#10;WHEN &apos;CT&apos; THEN&#9;&apos;Connecticut&apos;&#13;&#10;WHEN &apos;DC&apos; THEN  &apos;Dist. of Columbia&apos;&#13;&#10;WHEN &apos;DE&apos; THEN  &apos;Delaware&apos;&#13;&#10;WHEN &apos;FL&apos; THEN  &apos;Florida&apos;&#13;&#10;WHEN &apos;GA&apos; THEN &#9;&apos;Georgia&apos;&#13;&#10;WHEN &apos;GU&apos; THEN  &apos;Guam&apos;&#13;&#10;WHEN &apos;HI&apos; THEN  &apos;Hawaii&apos;&#13;&#10;WHEN &apos;IA&apos; THEN&#9;&apos;Iowa&apos;&#13;&#10;WHEN &apos;ID&apos; THEN&#9;&apos;Idaho&apos;&#13;&#10;WHEN &apos;IL&apos; THEN&#9;&apos;Illinois&apos;&#13;&#10;WHEN &apos;IN&apos; THEN&#9;&apos;Indiana&apos;&#13;&#10;WHEN &apos;KS&apos; THEN&#9;&apos;Kansas&apos;&#13;&#10;WHEN &apos;KY&apos; THEN&#9;&apos;Kentucky&apos;&#13;&#10;WHEN &apos;LA&apos; THEN&#9;&apos;Louisiana&apos;&#13;&#10;WHEN &apos;MA&apos; THEN&#9;&apos;Massachusetts&apos;&#13;&#10;WHEN &apos;MD&apos; THEN&#9;&apos;Maryland&apos;&#13;&#10;WHEN &apos;ME&apos; THEN&#9;&apos;Maine&apos;&#13;&#10;WHEN &apos;MI&apos; THEN  &apos;Michigan&apos;&#13;&#10;WHEN &apos;MN&apos; THEN&#9;&apos;Minnesota&apos;&#13;&#10;WHEN &apos;MO&apos; THEN&#9;&apos;Missouri&apos;&#13;&#10;WHEN &apos;MP&apos; THEN  &apos;Northern Marianas&apos;&#13;&#10;WHEN &apos;MS&apos; THEN&#9;&apos;Mississippi&apos;&#13;&#10;WHEN &apos;MT&apos; THEN&#9;&apos;Montana&apos;&#13;&#10;WHEN &apos;NC&apos; THEN&#9;&apos;North Carolina&apos;&#9;&#13;&#10;WHEN &apos;ND&apos; THEN&#9;&apos;North Dakota&apos;&#13;&#10;WHEN &apos;NE&apos; THEN&#9;&apos;Nebraska&apos;&#13;&#10;WHEN &apos;NH&apos; THEN  &apos;New Hampshire&apos;&#13;&#10;WHEN &apos;NJ&apos; THEN&#9;&apos;New Jersey&apos;&#13;&#10;WHEN &apos;NM&apos; THEN &#9;&apos;New Mexico&apos;&#13;&#10;WHEN &apos;NV&apos; THEN&#9;&apos;Nevada&apos;&#13;&#10;WHEN &apos;NY&apos; THEN &#9;&apos;New York&apos;&#13;&#10;WHEN &apos;OH&apos; THEN  &apos;Ohio&apos;&#9;&#13;&#10;WHEN &apos;OK&apos; THEN&#9;&apos;Oklahoma&apos;&#13;&#10;WHEN &apos;OR&apos; THEN  &apos;Oregon&apos;&#13;&#10;WHEN &apos;PA&apos; THEN  &apos;Pennsylvania&apos;&#13;&#10;WHEN &apos;PR&apos; THEN  &apos;Puerto Rico&apos;&#13;&#10;WHEN &apos;RI&apos; THEN&#9;&apos;Rhode Island&apos;&#13;&#10;WHEN &apos;SC&apos; THEN&#9;&apos;South Carolina&apos;&#13;&#10;WHEN &apos;SD&apos; THEN  &apos;South Dakota&apos;&#13;&#10;WHEN &apos;TN&apos; THEN&#9;&apos;Tennessee&apos;&#13;&#10;WHEN &apos;TX&apos; THEN&#9;&apos;Texas&apos;&#13;&#10;WHEN &apos;UT&apos; THEN&#9;&apos;Utah&apos;&#13;&#10;WHEN &apos;VA&apos; THEN&#9;&apos;Virginia&apos;&#13;&#10;WHEN &apos;VI&apos; THEN&#9;&apos;Virgin Islands&apos;&#13;&#10;WHEN &apos;VT&apos; THEN&#9;&apos;Vermont&apos;&#13;&#10;WHEN &apos;WA&apos; THEN  &apos;Washington&apos;&#13;&#10;WHEN &apos;WI&apos; THEN&#9;&apos;Wisconsin&apos;&#13;&#10;WHEN &apos;WV&apos; THEN&#9;&apos;West Virginia&apos;&#13;&#10;WHEN &apos;WY&apos; THEN&#9;&apos;Wyoming&apos;&#13;&#10;END' />
+      </column>
+      <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
+        <calculation class='tableau' formula='1' />
+      </column>
+      <column caption='Date Checked' datatype='datetime' name='[dateChecked]' role='dimension' type='ordinal' />
+      <column caption='Date' datatype='date' name='[date]' role='dimension' type='ordinal' />
+      <column caption='Death Increase' datatype='integer' name='[deathIncrease]' role='measure' type='quantitative' />
+      <column caption='Death' datatype='integer' name='[death]' role='measure' type='quantitative' />
+      <column caption='Fips' datatype='integer' name='[fips]' role='measure' type='quantitative' />
+      <column caption='Hash' datatype='string' name='[hash]' role='dimension' type='nominal' />
+      <column caption='Hospitalized Cumulative' datatype='integer' name='[hospitalizedCumulative]' role='measure' type='quantitative' />
+      <column caption='Hospitalized Currently' datatype='integer' name='[hospitalizedCurrently]' role='measure' type='quantitative' />
+      <column caption='Hospitalized Increase' datatype='integer' name='[hospitalizedIncrease]' role='measure' type='quantitative' />
+      <column caption='Hospitalized' datatype='integer' name='[hospitalized]' role='measure' type='quantitative' />
+      <column caption='In Icu Cumulative' datatype='integer' name='[inIcuCumulative]' role='measure' type='quantitative' />
+      <column caption='In Icu Currently' datatype='integer' name='[inIcuCurrently]' role='measure' type='quantitative' />
+      <column caption='Negative Increase' datatype='integer' name='[negativeIncrease]' role='measure' type='quantitative' />
+      <column caption='Negative' datatype='integer' name='[negative]' role='measure' type='quantitative' />
+      <column caption='On Ventilator Cumulative' datatype='integer' name='[onVentilatorCumulative]' role='measure' type='quantitative' />
+      <column caption='On Ventilator Currently' datatype='integer' name='[onVentilatorCurrently]' role='measure' type='quantitative' />
+      <column caption='Pending' datatype='integer' name='[pending]' role='measure' type='quantitative' />
+      <column caption='Pos Neg' datatype='integer' name='[posNeg]' role='measure' type='quantitative' />
+      <column caption='Positive Increase' datatype='integer' name='[positiveIncrease]' role='measure' type='quantitative' />
+      <column caption='Positive' datatype='integer' name='[positive]' role='measure' type='quantitative' />
+      <column caption='Recovered' datatype='integer' name='[recovered]' role='measure' type='quantitative' />
+      <column aggregation='None' caption='State Abrv' datatype='string' name='[state]' role='dimension' semantic-role='[State].[Name]' type='nominal' />
+      <column caption='Total Test Results Increase' datatype='integer' name='[totalTestResultsIncrease]' role='measure' type='quantitative' />
+      <column caption='Total Test Results' datatype='integer' name='[totalTestResults]' role='measure' type='quantitative' />
+      <column caption='Total' datatype='integer' name='[total]' role='measure' type='quantitative' />
+      <layout dim-ordering='alphabetic' dim-percentage='0.209934' measure-ordering='alphabetic' measure-percentage='0.790066' show-structure='true' />
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
+      </semantic-values>
+      <field-sort-info field-sort-order-type='custom-order'>
+        <field-sort-custom-order field='date' />
+        <field-sort-custom-order field='state' />
+        <field-sort-custom-order field='Calculation_365073092393816064' />
+        <field-sort-custom-order field='positive' />
+        <field-sort-custom-order field='negative' />
+        <field-sort-custom-order field='pending' />
+        <field-sort-custom-order field='hospitalizedCurrently' />
+        <field-sort-custom-order field='hospitalizedCumulative' />
+        <field-sort-custom-order field='inIcuCurrently' />
+        <field-sort-custom-order field='inIcuCumulative' />
+        <field-sort-custom-order field='onVentilatorCurrently' />
+        <field-sort-custom-order field='onVentilatorCumulative' />
+        <field-sort-custom-order field='recovered' />
+        <field-sort-custom-order field='hash' />
+        <field-sort-custom-order field='dateChecked' />
+        <field-sort-custom-order field='death' />
+        <field-sort-custom-order field='hospitalized' />
+        <field-sort-custom-order field='total' />
+        <field-sort-custom-order field='totalTestResults' />
+        <field-sort-custom-order field='posNeg' />
+        <field-sort-custom-order field='fips' />
+        <field-sort-custom-order field='deathIncrease' />
+        <field-sort-custom-order field='hospitalizedIncrease' />
+        <field-sort-custom-order field='negativeIncrease' />
+        <field-sort-custom-order field='positiveIncrease' />
+        <field-sort-custom-order field='totalTestResultsIncrease' />
+      </field-sort-info>
+    </datasource>
+  </datasources>
+  <worksheets>
+    <worksheet name='Sheet 1'>
+      <table>
+        <view>
+          <datasources />
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+          </pane>
+        </panes>
+        <rows />
+        <cols />
+      </table>
+      <simple-id uuid='{1E478846-A915-43F3-8917-E0A26EAE8CCF}' />
+    </worksheet>
+  </worksheets>
+  <windows saved-dpi-scale-factor='1.5' source-height='44'>
+    <window class='worksheet' maximized='true' name='Sheet 1'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='30'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{4578AFBD-073B-4D1F-B470-0F4B72792B67}' />
+    </window>
+  </windows>
+</workbook>
