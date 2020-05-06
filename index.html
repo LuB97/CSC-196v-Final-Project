@@ -380,7 +380,7 @@
                     state[i].properties = {};
                     for (key in covid[state_id]){
                         if(key == "Total Test Results"){
-                            domain.push(covid[state_id]["Total Test Results"])
+                            domain.push(covid[state_id]["Positive"])
                         }
                         state[i].properties[key] = covid[state_id][key];
                     }
