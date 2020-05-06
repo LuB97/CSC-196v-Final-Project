@@ -1,422 +1,804 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>US Covid</title>
-        <style>
-            .background {
-                fill: none;
-                pointer-events: all;
+<head>
+    <meta charset="utf-8">
+    <title>US Covid</title>
+    <style>
+        .background {
+            fill: none;
+            pointer-events: all;
+        }
+
+        .graticule {
+            fill: none;
+            stroke: #777;
+            stroke-width: .5;
+            stroke-opacity: .7;
+        }
+
+        #dma-borders {
+            fill: none;
+            stroke: black;
+            stroke-width: 0.7;
+            stroke-linejoin: round;
+            stroke-linecap: round;
+            pointer-events: none;
+        }
+
+        #textbox {
+            position: relative;
+            left: 1250px;
+            bottom: -540px;
+        }
+
+        #textbox text p {
+            font-family: "Lucida Sans Unicode";
+            font-size: .8em;
+            margin: 0;
+        }
+
+        .header {
+            padding: 60px;
+            text-align: left;
+            background: url('COVID19_Banner.jpg');
+            background-size: cover;
+            opacity: 0.95;
+            color: antiquewhite;
+            font-size: 30px;
+        }
+
+        section.a{
+            margin: 80px 400px;
+        }
+
+        /*margins are top right bottom left*/
+        section.b{
+            margin: -50px 0 0 20px;
+        }
+
+        section.c{
+            margin: -50px 0 0 20px;
+        }
+
+        h3.map{
+            margin: 20px 0 -30px 0;
+        }
+
+        h3.graph{
+            margin: 20px 0 -30px 0;
+        }
+
+        hr.a{
+            margin: 10px 0 0 0;
+        }
+
+        h1{
+            font-family: "Arial Black";
+        }
+
+        h2{
+            font-family: Impact;
+        }
+
+        h3{
+            font-family: "Lucida Sans Unicode";
+        }
+
+        p{
+            font-family: "Lucida Sans Unicode";
+        }
+
+        p.note{
+            font-family: "Lucida Sans Unicode";
+            font-size: 12px;
+            margin: 50px 0 0 0 ;
+        }
+
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>COVID-19 in the United States</h1>
+</div>
+<script src="https://d3js.org/d3.v3.js"></script>
+<script>
+    var d3v3 = window.d3;
+    window.d3 = null;
+</script>
+<div>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script>
+        var d3v4 = window.d3;
+    </script>
+
+    <!-- Color Scale -->
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://unpkg.com/d3-scale-cluster@1.3.1/dist/d3-scale-cluster.min.js"></script>
+
+    <div id="textbox"></div>
+
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <table>
+        <tr>
+
+        </tr>
+    </table>
+    <section>
+        <h3 class = "map" align="Center">How has COVID-19 spread throughout the United States?</h3>
+        <table align="Center" cellspacing="30">
+            <th colspan="2">
+                <hr class = "a">
+            </th>
+            <tr>
+                <td>
+                    <!-- Create a div where the map will take place -->
+                    <div id="my_dataviz" align="center"></div>
+                    <div class = "legend" style="margin: 0 0 0 1000px" id="legend1"></div>
+                </td>
+            </tr>
+        </table>
+    </section>
+    <section class="c">
+
+        <p class="note" align="Center">
+            The map coloring shows the number of test results done. <br>
+            Hovering over the states shows details on COVID-19 results
+        </p>
+    </section>
+    <section class="b">
+        <p class = "note" align="Center">This visual shows how the number of positive COVID-19 cases have increased overtime for selected state </p>
+    </section>
+
+    <section style="margin: 50px 0 0 0">
+        <h3 class = "graph" align="Center">How each state is doing on testing for COVID-19?</h3>
+        <table align="Center" cellspacing="30">
+            <th colspan="2">
+                <hr class = "a">
+            </th>
+            <tr>
+                <td>
+                    <!-- Create a div where the graph will take place -->
+                    <div id="main">
+                        <div id="sequence"></div>
+                        <div id="chart">
+                            <div id="explanation" style="visibility: hidden;">
+                                <span id="percentage"></span><br/>
+                                of visits begin with this sequence of pages
+                            </div>
+                        </div>
+                    </div>
+                    <div id="sidebar">
+                        <input type="checkbox" id="togglelegend"> Legend<br/>
+                        <div id="legend" style="visibility: hidden;"></div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </section>
+
+    <section class = "a">
+        <h2 align="Center" >Data Analysis</h2>
+        <hr>
+        <p>
+            From the data we have gathered, you can see that COVID-19 has spread through the United States at an
+            exponential rate. The logic behind its spread is social contact. You can see that at the beginning of
+            March there were very few cases of COVID-19 reported. This can be attributed by the low number of
+            testing available at the time. By the end of March there was a sudden extreme spike in the number of cases.
+            Testing availability has increased by then however the spread of the virus by unsuspecting individuals has
+            already done its damage. This then creates that exponential curve. It can also be observed that certain
+            states where the population is more dense, like in New York, the influx of COVID-19 is much higher
+            than more rural states such as Wyoming and North Dakota.
+        </p>
+
+        <h2 align="Center">Visualization</h2>
+        <hr>
+        <h3>
+            How did you choose your particular visual encoding and interaction techniques?
+        </h3>
+        <p>
+            With the novel virus COVID-19 spreading at an exponential rate around the globe, we wanted to focus on
+            how it has been affecting us as a country in the Untied States. However, we know that each individual
+            has different concerns. For example, someone with family in New York for example would want to see
+            details in regards to that state. So with that taken into consideration, we decided to allow users
+            to be able to interact with the visual and select certain states that they wanted to expand details on.
+            We also wanted to show how each state compares to one another, so we decided to add a color gradient
+            based one of the big topics on COVID-19: total people tested.
+        </p>
+        <h3>
+            What alternatives did you consider and how did you arrive at your ultimate choices
+        </h3>
+        <p>
+            At first we had considered only showing the most recent data for each state. Then we would break out
+            the details for each state in a textbox as you hovered over the state of your choice. But then we
+            realized that the most recent data does not help to show people how quickly COVID-19 has progressed.
+            So we decided to add an additional visual that graphically shows how COVID-19 has progressed overtime.
+            We considered showing the over progression throughout the entire country, but we realized again that
+            it would be most beneficial to show the progression through each state individually. This way viewers
+            can more evidently see how quickly COVID-19 has spread in certain states. By showing the data as a
+            whole country, certain states with more spread would affect the overall curve therefore potentially
+            skewing how COVID-19 has affect states individually.
+        </p>
+
+        <h2 align="Center" >Development</h2>
+        <hr>
+        <h3>
+            Roughly how much time did you spend developing your application?
+        </h3>
+        <p>
+            Bryant and I had spent about 2 hours each to go out and find the best dataset in regards to COVID-19.
+            Once we had gathered possible options we spent about 1 hour together deciding which sets of data would
+            be useful and how we would present the data in our visualizations. After that, we spent about 2 hours
+            for the data wrangling and deciding how to split up the data for our two visualizations. The HTML and
+            D3 set up took about 9 hrs each totaling to 18 hours in total for this. Our overall project took
+            approximately 23 hours to completely develop
+        </p>
+        <h3>
+            What aspects took the most time?
+        </h3>
+        <p>
+            The most difficult aspects to develop was the D3 visualizations. It took quite some time for us to
+            get a handle on how to create the visualizations. The next difficult task was finding out how to use
+            two separate D3 libraries, since we had created two visuals but we were trying to load both onto a
+            single html page. Once we figured out all the little details it was not too difficult. Getting a
+            good flow to our page layout and making sure it was sensible and presentable was probably the
+            only other aspect that really took a lot of time to plan out.
+        </p>
+    </section>
+
+
+    <script type="text/javascript">
+        var w = 300, h = 50;
+
+        var key = d3.select("#legend1")
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h);
+
+        var legend = key.append("defs")
+            .append("svg:linearGradient")
+            .attr("id", "gradient")
+            .attr("x1", "0%")
+            .attr("y1", "100%")
+            .attr("x2", "100%")
+            .attr("y2", "100%")
+            .attr("spreadMethod", "pad");
+
+        legend.append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", "#FFE5E5")
+            .attr("stop-opacity", 1);
+
+        legend.append("stop")
+            .attr("offset", "20%")
+            .attr("stop-color", "#FFCCCC")
+            .attr("stop-opacity", 1);
+
+        legend.append("stop")
+            .attr("offset", "40%")
+            .attr("stop-color", "#FFB2B2")
+            .attr("stop-opacity", 1);
+
+        legend.append("stop")
+            .attr("offset", "60%")
+            .attr("stop-color", "#FF9999")
+            .attr("stop-opacity", 1);
+
+        legend.append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", "#FF7F7F")
+            .attr("stop-opacity", 1);
+
+
+        key.append("rect")
+            .attr("width", w)
+            .attr("height", h - 30)
+            .style("fill", "url(#gradient)")
+            .attr("transform", "translate(0,10)");
+
+        var y = d3.scaleLinear()
+            .range([300, 0])
+            .domain([370000, 0]);
+
+        var yAxis = d3.axisBottom()
+            .scale(y)
+            .ticks(3);
+
+        key.append("g")
+            .attr("class", "y axis")
+            .attr("transform", "translate(0,30)")
+            .call(yAxis)
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("axis title");
+    </script>
+    <script>
+        // set the dimensions and margins of the graph
+        var margin = {top: 10, right: 30, bottom: 30, left: 60},
+            width1 = 600 - margin.left - margin.right,
+            height1 = 300 - margin.top - margin.bottom;
+
+        // append the svg object to the body of the page
+        var svg1 = d3v4.select("#my_dataviz2")
+            .append("svg")
+            .attr("width", width1 + margin.left + margin.right)
+            .attr("height", height1 + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform",
+                "translate(" + margin.left + "," + margin.top + ")");
+
+
+        <!------------------ map code---------------- !-->
+        var width2 = 960,
+            height2= 500;
+        // sets the type of view
+        var projection = d3v3.geo.albersUsa()
+            .scale(1070) // size, bigger is bigger
+            .translate([width2 / 2, height2 / 2]);
+
+        //creates a new geographic path generator
+        var path = d3v3.geo.path().projection(projection);
+        var xScale = d3v3.scale.linear()
+            .domain([0, 7])
+            .range([0, 500]);
+
+        var xAxis = d3v3.svg.axis()
+            .scale(xScale)
+            .orient("bottom")
+            .tickSize(13)
+            .tickFormat(d3.format("0.0f"));
+
+
+        //set svg window
+        var svg2 = d3v3.select("#my_dataviz")
+            .append("svg")
+            .attr("width", width2)
+            .attr("height", height2);
+
+        var graticule = d3v3.geo.graticule()
+            .extent([[-98 - 45, 38 - 45], [-98 + 45, 38 + 45]])
+            .step([5, 5]);
+
+        // adding a blank background
+        svg2.append("rect")
+            .datum(graticule)
+            .attr("class", "background")
+            .attr("width", width2)
+            .attr("height", height2)
+        // .on("click", clicked);
+
+        //declare g as our appended svg
+        var g = svg2.append("g");
+
+        var defaultFill = "#aaa";
+
+        d3v3.json("us.json", function(error, us) {
+
+            var state = us.objects.states.geometries;
+            var domain = [];
+            // adding data from tv json (number of TVs, etc) to map json
+            d3v3.json("Covid.json", function(error, covid){
+                for (var i = 0; i < state.length; i++){
+                    var state_id = state[i].id;
+                    state[i].properties = {};
+                    for (key in covid[state_id]){
+                        if(key == "Total Test Results"){
+                            domain.push(covid[state_id]["Total Test Results"])
+                        }
+                        state[i].properties[key] = covid[state_id][key];
+                    }
+                }
+                us.objects.states.geometries = state;
+                var scale = d3.scaleCluster()
+                    .domain(domain)
+                    .range(['#FFE5E5', '#FFCCCC', '#FFB2B2', '#FF9999','#FF7F7F', '#FF4C4C']);
+                g.append("g")
+                    .attr("id", "us")
+                    .attr("stroke","white")
+                    .selectAll("path")
+                    .data(topojson.feature(us, us.objects.states).features)
+                    .enter()
+                    .append("path")
+                    .attr("d", path)
+                    .style("fill", function(d) {
+                        color = scale(parseInt(d.properties["Total Test Results"]));
+                        return color; })
+                    .on("mouseover", function(d){
+                        d3v3.select(this)
+                            .style("fill", "blueviolet");
+
+                        var prop = d.properties;
+
+                        var string =  "<p><strong>State</strong>: " + prop.State + "</p>";
+                        string += "<p><strong>Total Test Results</strong>: " + prop["Total Test Results"] + "</p>";
+                        string += "<p><strong>Positive</strong>: " + prop["Positive"] + "</p>";
+                        string += "<p><strong>Negative</strong>: " + prop["Negative"] + "</p>";
+                        if(prop.Hospitalized == null){
+                            string += "<p><strong>Hospitalized</strong>: " + "N/A" + "</p>";
+                        }
+                        else {
+                            string += "<p><strong>Hospitalized</strong>: " + prop["Hospitalized"] + "</p>";
+                        }
+                        string += "<p><strong>Death</strong>: " + prop["Death"] + "</p>";
+
+                        d3v3.select("#textbox")
+                            .html("")
+                            .append("text")
+                            .html(string)
+                    })
+
+                    .on("mouseout", function(d){
+                        d3v3.select(this)
+                            .style("fill", function(d) {
+                                var color = scale(parseInt(d.properties["Total Test Results"])); // '#9E58AF'
+                                return color; })
+                    })
+                    .attr("opacity", 0.9)
+                    .attr("fill", defaultFill);
+            })
+        })
+        // via http://stackoverflow.com/a/2901298
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+    </script>
+    <script>
+        // Dimensions of sunburst.
+        var width = 750;
+        var height = 600;
+        var radius = Math.min(width, height) / 2;
+
+        // Breadcrumb dimensions: width, height, spacing, width of tip/tail.
+        var b = {
+            w: 95, h: 30, s: 3, t: 10
+        };
+
+        // Mapping of step names to colors.
+        var colors = {
+            "Alabama": "#5687d1",
+            "Alaska": "#5687d1",
+            "Arizona": "#5687d1",
+            "Arkansas": "#5687d1",
+            "California": "#5687d1",
+            "Colorado": "#5687d1",
+            "Connecticut": "#5687d1",
+            "Delaware": "#5687d1",
+            "Florida": "#5687d1",
+            "Georgia": "#5687d1",
+            "Hawaii": "#5687d1",
+            "Idaho": "#5687d1",
+            "Illinois": "#5687d1",
+            "Indiana": "#5687d1",
+            "Iowa": "#5687d1",
+            "Kansas": "#5687d1",
+            "Kentucky": "#5687d1",
+            "Louisiana": "#5687d1",
+            "Maine": "#5687d1",
+            "Maryland": "#5687d1",
+            "Massachusetts": "#5687d1",
+            "Michigan": "#5687d1",
+            "Minnesota": "#5687d1",
+            "Mississippi": "#5687d1",
+            "Missouri": "#5687d1",
+            "Montana": "#5687d1",
+            "Nebraska": "#5687d1",
+            "Nevada": "#5687d1",
+            "New Hampshire": "#5687d1",
+            "New Jersey": "#5687d1",
+            "New Mexico": "#5687d1",
+            "New York": "#5687d1",
+            "North Carolina": "#5687d1",
+            "North Dakota": "#5687d1",
+            "Ohio": "#5687d1",
+            "Oklahoma": "#5687d1",
+            "Oregon": "#5687d1",
+            "Pennsylvania": "#5687d1",
+            "Rhode Island": "#5687d1",
+            "South Carolina": "#5687d1",
+            "South Dakota": "#5687d1",
+            "Tennessee": "#5687d1",
+            "Texas": "#5687d1",
+            "Utah": "#5687d1",
+            "Vermont": "#5687d1",
+            "Virginia": "#5687d1",
+            "Washington": "#5687d1",
+            "West Virginia": "#5687d1",
+            "Wisconsin": "#5687d1",
+            "Wyoming": "#5687d1",
+            "Tested": "#7b615c",
+            "Untested": "#bbbbbb",
+            "Negative": "#bbbbbb",
+            "Positive": "#bbbbbb"
+        };
+
+        // Total size of all segments; we set this later, after loading the data.
+        var totalSize = 0;
+
+        var vis = d3v3.select("#chart").append("svg:svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("svg:g")
+            .attr("id", "container")
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+        var partition = d3v3.layout.partition()
+            .size([2 * Math.PI, radius * radius])
+            .value(function(d) { return d.size; });
+
+        var arc = d3v3.svg.arc()
+            .startAngle(function(d) { return d.x; })
+            .endAngle(function(d) { return d.x + d.dx; })
+            .innerRadius(function(d) { return Math.sqrt(d.y); })
+            .outerRadius(function(d) { return Math.sqrt(d.y + d.dy); });
+
+        // Use d3v3.text and d3v3.csv.parseRows so that we do not need to have a header
+        // row, and can receive the csv as an array of arrays.
+        d3v3.text("sunburst.csv", function(text) {
+            var csv = d3v3.csv.parseRows(text);
+            var json = buildHierarchy(csv);
+            createVisualization(json);
+        });
+
+        // Main function to draw and set up the visualization, once we have the data.
+        function createVisualization(json) {
+
+            // Basic setup of page elements.
+            initializeBreadcrumbTrail();
+            drawLegend();
+            d3v3.select("#togglelegend").on("click", toggleLegend);
+
+            // Bounding circle underneath the sunburst, to make it easier to detect
+            // when the mouse leaves the parent g.
+            vis.append("svg:circle")
+                .attr("r", radius)
+                .style("opacity", 0);
+
+            // For efficiency, filter nodes to keep only those large enough to see.
+            var nodes = partition.nodes(json)
+                .filter(function(d) {
+                    return (d.dx > 0.005); // 0.005 radians = 0.29 degrees
+                });
+
+            var path = vis.data([json]).selectAll("path")
+                .data(nodes)
+                .enter().append("svg:path")
+                .attr("display", function(d) { return d.depth ? null : "none"; })
+                .attr("d", arc)
+                .attr("fill-rule", "evenodd")
+                .style("fill", function(d) { return colors[d.name]; })
+                .style("opacity", 1)
+                .on("mouseover", mouseover);
+
+            // Add the mouseleave handler to the bounding circle.
+            d3v3.select("#container").on("mouseleave", mouseleave);
+
+            // Get total size of the tree = value of root node from partition.
+            totalSize = path.node().__data__.value;
+        };
+
+        // Fade all but the current sequence, and show it in the breadcrumb trail.
+        function mouseover(d) {
+
+            var percentage = (100 * d.value / totalSize).toPrecision(3);
+            var percentageString = percentage + "%";
+            if (percentage < 0.1) {
+                percentageString = "< 0.1%";
             }
 
-            .graticule {
-                fill: none;
-                stroke: #777;
-                stroke-width: .5;
-                stroke-opacity: .7;
+            d3v3.select("#percentage")
+                .text(percentageString);
+
+            d3v3.select("#explanation")
+                .style("visibility", "");
+
+            var sequenceArray = getAncestors(d);
+            updateBreadcrumbs(sequenceArray, percentageString);
+
+            // Fade all the segments.
+            d3v3.selectAll("path")
+                .style("opacity", 0.3);
+
+            // Then highlight only those that are an ancestor of the current segment.
+            vis.selectAll("path")
+                .filter(function(node) {
+                    return (sequenceArray.indexOf(node) >= 0);
+                })
+                .style("opacity", 1);
+        }
+
+        // Restore everything to full opacity when moving off the visualization.
+        function mouseleave(d) {
+
+            // Hide the breadcrumb trail
+            d3v3.select("#trail")
+                .style("visibility", "hidden");
+
+            // Deactivate all segments during transition.
+            d3v3.selectAll("path").on("mouseover", null);
+
+            // Transition each segment to full opacity and then reactivate it.
+            d3v3.selectAll("path")
+                .transition()
+                .duration(1000)
+                .style("opacity", 1)
+                .each("end", function() {
+                    d3v3.select(this).on("mouseover", mouseover);
+                });
+
+            d3v3.select("#explanation")
+                .style("visibility", "hidden");
+        }
+
+        // Given a node in a partition layout, return an array of all of its ancestor
+        // nodes, highest first, but excluding the root.
+        function getAncestors(node) {
+            var path = [];
+            var current = node;
+            while (current.parent) {
+                path.unshift(current);
+                current = current.parent;
             }
+            return path;
+        }
 
-            #dma-borders {
-                fill: none;
-                stroke: black;
-                stroke-width: 0.7;
-                stroke-linejoin: round;
-                stroke-linecap: round;
-                pointer-events: none;
+        function initializeBreadcrumbTrail() {
+            // Add the svg area.
+            var trail = d3v3.select("#sequence").append("svg:svg")
+                .attr("width", width)
+                .attr("height", 50)
+                .attr("id", "trail");
+            // Add the label at the end, for the percentage.
+            trail.append("svg:text")
+                .attr("id", "endlabel")
+                .style("fill", "#000");
+        }
+
+        // Generate a string that describes the points of a breadcrumb polygon.
+        function breadcrumbPoints(d, i) {
+            var points = [];
+            points.push("0,0");
+            points.push(b.w + ",0");
+            points.push(b.w + b.t + "," + (b.h / 2));
+            points.push(b.w + "," + b.h);
+            points.push("0," + b.h);
+            if (i > 0) { // Leftmost breadcrumb; don't include 6th vertex.
+                points.push(b.t + "," + (b.h / 2));
             }
+            return points.join(" ");
+        }
 
-            #textbox {
-                position: relative;
-                left: 1250px;
-                bottom: -540px;
+        // Update the breadcrumb trail to show the current sequence and percentage.
+        function updateBreadcrumbs(nodeArray, percentageString) {
+
+            // Data join; key function combines name and depth (= position in sequence).
+            var g = d3v3.select("#trail")
+                .selectAll("g")
+                .data(nodeArray, function(d) { return d.name + d.depth; });
+
+            // Add breadcrumb and label for entering nodes.
+            var entering = g.enter().append("svg:g");
+
+            entering.append("svg:polygon")
+                .attr("points", breadcrumbPoints)
+                .style("fill", function(d) { return colors[d.name]; });
+
+            entering.append("svg:text")
+                .attr("x", (b.w + b.t) / 2)
+                .attr("y", b.h / 2)
+                .attr("dy", "0.35em")
+                .attr("text-anchor", "middle")
+                .text(function(d) { return d.name; });
+
+            // Set position for entering and updating nodes.
+            g.attr("transform", function(d, i) {
+                return "translate(" + i * (b.w + b.s) + ", 0)";
+            });
+
+            // Remove exiting nodes.
+            g.exit().remove();
+
+            // Now move and update the percentage at the end.
+            d3v3.select("#trail").select("#endlabel")
+                .attr("x", (nodeArray.length + 0.5) * (b.w + b.s))
+                .attr("y", b.h / 2)
+                .attr("dy", "0.35em")
+                .attr("text-anchor", "middle")
+                .text(percentageString);
+
+            // Make the breadcrumb trail visible, if it's hidden.
+            d3v3.select("#trail")
+                .style("visibility", "");
+
+        }
+
+        function drawLegend() {
+
+            // Dimensions of legend item: width, height, spacing, radius of rounded rect.
+            var li = {
+                w: 75, h: 30, s: 3, r: 3
+            };
+
+            var legend = d3v3.select("#legend").append("svg:svg")
+                .attr("width", li.w)
+                .attr("height", d3v3.keys(colors).length * (li.h + li.s));
+
+            var g = legend.selectAll("g")
+                .data(d3v3.entries(colors))
+                .enter().append("svg:g")
+                .attr("transform", function(d, i) {
+                    return "translate(0," + i * (li.h + li.s) + ")";
+                });
+
+            g.append("svg:rect")
+                .attr("rx", li.r)
+                .attr("ry", li.r)
+                .attr("width", li.w)
+                .attr("height", li.h)
+                .style("fill", function(d) { return d.value; });
+
+            g.append("svg:text")
+                .attr("x", li.w / 2)
+                .attr("y", li.h / 2)
+                .attr("dy", "0.35em")
+                .attr("text-anchor", "middle")
+                .text(function(d) { return d.key; });
+        }
+
+        function toggleLegend() {
+            var legend = d3v3.select("#legend");
+            if (legend.style("visibility") == "hidden") {
+                legend.style("visibility", "");
+            } else {
+                legend.style("visibility", "hidden");
             }
+        }
 
-            #textbox text p {
-                font-family: "Lucida Sans Unicode";
-                font-size: .8em;
-                margin: 0;
-            }
-
-            .header {
-                padding: 60px;
-                text-align: left;
-                background: url('COVID19_Banner.jpg');
-                background-size: cover;
-                opacity: 0.95;
-                color: antiquewhite;
-                font-size: 30px;
-            }
-
-            section.a{
-                margin: 80px 400px;
-            }
-
-            /*margins are top right bottom left*/
-            section.b{
-                margin: -50px 0 0 20px;
-            }
-
-            section.c{
-                margin: -50px 0 0 20px;
-            }
-
-            h3.map{
-                margin: 20px 0 -30px 0;
-            }
-
-            h3.graph{
-                margin: 20px 0 -30px 0;
-            }
-
-            hr.a{
-                margin: 10px 0 0 0;
-            }
-
-            h1{
-                font-family: "Arial Black";
-            }
-
-            h2{
-                font-family: Impact;
-            }
-
-            h3{
-                font-family: "Lucida Sans Unicode";
-            }
-
-            p{
-                font-family: "Lucida Sans Unicode";
-            }
-
-            p.note{
-                font-family: "Lucida Sans Unicode";
-                font-size: 12px;
-                margin: 50px 0 0 0 ;
-            }
-
-        </style>
-    </head>
-    <body>
-        <div class="header">
-            <h1>COVID-19 in the United States</h1>
-        </div>
-        <script src="https://d3js.org/d3.v3.js"></script>
-        <script>
-            var d3v3 = window.d3;
-            window.d3 = null;
-        </script>
-        <div>
-            <script src="https://d3js.org/d3.v4.js"></script>
-             <script>
-                 var d3v4 = window.d3;
-             </script>
-
-            <!-- Color Scale -->
-            <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-            <script src="https://unpkg.com/d3-scale-cluster@1.3.1/dist/d3-scale-cluster.min.js"></script>
-
-            <div id="textbox"></div>
-
-            <script src="https://d3js.org/topojson.v1.min.js"></script>
-            <table>
-                <tr>
-
-                </tr>
-            </table>
-            <section>
-                <h3 class = "map" align="Center">How has COVID-19 spread throughout the United States?</h3>
-                <table align="Center" cellspacing="30">
-                    <th colspan="2">
-                        <hr class = "a">
-                    </th>
-                    <tr>
-                        <td>
-                            <!-- Create a div where the map will take place -->
-                            <div id="my_dataviz" align="center"></div>
-                            <div class = "legend" style="margin: 0 0 0 1000px" id="legend1"></div>
-                        </td>
-                    </tr>
-                </table>
-            </section>
-            <section class="c">
-
-                <p class="note" align="Center">
-                    The map coloring shows the number of test results done. <br>
-                    Hovering over the states shows details on COVID-19 results
-                </p>
-            </section>
-            <section class="b">
-                <p class = "note" align="Center">This visual shows how the number of positive COVID-19 cases have increased overtime for selected state </p>
-            </section>
-
-            <section class = "a">
-                <h2 align="Center" >Data Analysis</h2>
-                <hr>
-                <p>
-                    From the data we have gathered, you can see that COVID-19 has spread through the United States at an
-                    exponential rate. The logic behind its spread is social contact. You can see that at the beginning of
-                    March there were very few cases of COVID-19 reported. This can be attributed by the low number of
-                    testing available at the time. By the end of March there was a sudden extreme spike in the number of cases.
-                    Testing availability has increased by then however the spread of the virus by unsuspecting individuals has
-                    already done its damage. This then creates that exponential curve. It can also be observed that certain
-                    states where the population is more dense, like in New York, the influx of COVID-19 is much higher
-                    than more rural states such as Wyoming and North Dakota.
-                </p>
-
-                <h2 align="Center">Visualization</h2>
-                <hr>
-                <h3>
-                    How did you choose your particular visual encoding and interaction techniques?
-                </h3>
-                <p>
-                    With the novel virus COVID-19 spreading at an exponential rate around the globe, we wanted to focus on
-                    how it has been affecting us as a country in the Untied States. However, we know that each individual
-                    has different concerns. For example, someone with family in New York for example would want to see
-                    details in regards to that state. So with that taken into consideration, we decided to allow users
-                    to be able to interact with the visual and select certain states that they wanted to expand details on.
-                    We also wanted to show how each state compares to one another, so we decided to add a color gradient
-                    based one of the big topics on COVID-19: total people tested.
-                </p>
-                <h3>
-                    What alternatives did you consider and how did you arrive at your ultimate choices
-                </h3>
-                <p>
-                    At first we had considered only showing the most recent data for each state. Then we would break out
-                    the details for each state in a textbox as you hovered over the state of your choice. But then we
-                    realized that the most recent data does not help to show people how quickly COVID-19 has progressed.
-                    So we decided to add an additional visual that graphically shows how COVID-19 has progressed overtime.
-                    We considered showing the over progression throughout the entire country, but we realized again that
-                    it would be most beneficial to show the progression through each state individually. This way viewers
-                    can more evidently see how quickly COVID-19 has spread in certain states. By showing the data as a
-                    whole country, certain states with more spread would affect the overall curve therefore potentially
-                    skewing how COVID-19 has affect states individually.
-                </p>
-
-                <h2 align="Center" >Development</h2>
-                <hr>
-                <h3>
-                    Roughly how much time did you spend developing your application?
-                </h3>
-                <p>
-                    Bryant and I had spent about 2 hours each to go out and find the best dataset in regards to COVID-19.
-                    Once we had gathered possible options we spent about 1 hour together deciding which sets of data would
-                    be useful and how we would present the data in our visualizations. After that, we spent about 2 hours
-                    for the data wrangling and deciding how to split up the data for our two visualizations. The HTML and
-                    D3 set up took about 9 hrs each totaling to 18 hours in total for this. Our overall project took
-                    approximately 23 hours to completely develop
-                </p>
-                <h3>
-                    What aspects took the most time?
-                </h3>
-                <p>
-                    The most difficult aspects to develop was the D3 visualizations. It took quite some time for us to
-                    get a handle on how to create the visualizations. The next difficult task was finding out how to use
-                    two separate D3 libraries, since we had created two visuals but we were trying to load both onto a
-                    single html page. Once we figured out all the little details it was not too difficult. Getting a
-                    good flow to our page layout and making sure it was sensible and presentable was probably the
-                    only other aspect that really took a lot of time to plan out.
-                </p>
-            </section>
-
-
-            <script type="text/javascript">
-                var w = 300, h = 50;
-
-                var key = d3.select("#legend1")
-                    .append("svg")
-                    .attr("width", w)
-                    .attr("height", h);
-
-                var legend = key.append("defs")
-                    .append("svg:linearGradient")
-                    .attr("id", "gradient")
-                    .attr("x1", "0%")
-                    .attr("y1", "100%")
-                    .attr("x2", "100%")
-                    .attr("y2", "100%")
-                    .attr("spreadMethod", "pad");
-
-                legend.append("stop")
-                    .attr("offset", "0%")
-                    .attr("stop-color", "#FFE5E5")
-                    .attr("stop-opacity", 1);
-
-                legend.append("stop")
-                    .attr("offset", "20%")
-                    .attr("stop-color", "#FFCCCC")
-                    .attr("stop-opacity", 1);
-
-                legend.append("stop")
-                    .attr("offset", "40%")
-                    .attr("stop-color", "#FFB2B2")
-                    .attr("stop-opacity", 1);
-
-                legend.append("stop")
-                    .attr("offset", "60%")
-                    .attr("stop-color", "#FF9999")
-                    .attr("stop-opacity", 1);
-
-                legend.append("stop")
-                    .attr("offset", "100%")
-                    .attr("stop-color", "#FF7F7F")
-                    .attr("stop-opacity", 1);
-
-
-                key.append("rect")
-                    .attr("width", w)
-                    .attr("height", h - 30)
-                    .style("fill", "url(#gradient)")
-                    .attr("transform", "translate(0,10)");
-
-                var y = d3.scaleLinear()
-                    .range([300, 0])
-                    .domain([370000, 0]);
-
-                var yAxis = d3.axisBottom()
-                    .scale(y)
-                    .ticks(3);
-
-                key.append("g")
-                    .attr("class", "y axis")
-                    .attr("transform", "translate(0,30)")
-                    .call(yAxis)
-                    .append("text")
-                    .attr("transform", "rotate(-90)")
-                    .attr("y", 0)
-                    .attr("dy", ".71em")
-                    .style("text-anchor", "end")
-                    .text("axis title");
-            </script>
-            <script>
-                // set the dimensions and margins of the graph
-                var margin = {top: 10, right: 30, bottom: 30, left: 60},
-                    width1 = 600 - margin.left - margin.right,
-                    height1 = 300 - margin.top - margin.bottom;
-
-                // append the svg object to the body of the page
-                var svg1 = d3v4.select("#my_dataviz2")
-                    .append("svg")
-                    .attr("width", width1 + margin.left + margin.right)
-                    .attr("height", height1 + margin.top + margin.bottom)
-                    .append("g")
-                    .attr("transform",
-                        "translate(" + margin.left + "," + margin.top + ")");
-
-
-    <!------------------ map code---------------- !-->
-                var width2 = 960,
-                    height2= 500;
-                // sets the type of view
-                var projection = d3v3.geo.albersUsa()
-                    .scale(1070) // size, bigger is bigger
-                    .translate([width2 / 2, height2 / 2]);
-
-                //creates a new geographic path generator
-                var path = d3v3.geo.path().projection(projection);
-                var xScale = d3v3.scale.linear()
-                    .domain([0, 7])
-                    .range([0, 500]);
-
-                var xAxis = d3v3.svg.axis()
-                    .scale(xScale)
-                    .orient("bottom")
-                    .tickSize(13)
-                    .tickFormat(d3.format("0.0f"));
-
-
-                //set svg window
-                var svg2 = d3v3.select("#my_dataviz")
-                    .append("svg")
-                    .attr("width", width2)
-                    .attr("height", height2);
-
-                var graticule = d3v3.geo.graticule()
-                    .extent([[-98 - 45, 38 - 45], [-98 + 45, 38 + 45]])
-                    .step([5, 5]);
-
-                // adding a blank background
-                svg2.append("rect")
-                    .datum(graticule)
-                    .attr("class", "background")
-                    .attr("width", width2)
-                    .attr("height", height2)
-                // .on("click", clicked);
-
-                //declare g as our appended svg
-                var g = svg2.append("g");
-
-                var defaultFill = "#aaa";
-
-                d3v3.json("us.json", function(error, us) {
-
-                    var state = us.objects.states.geometries;
-                    var domain = [];
-                    // adding data from tv json (number of TVs, etc) to map json
-                    d3v3.json("Covid.json", function(error, covid){
-                        for (var i = 0; i < state.length; i++){
-                            var state_id = state[i].id;
-                            state[i].properties = {};
-                            for (key in covid[state_id]){
-                                if(key == "Total Test Results"){
-                                    domain.push(covid[state_id]["Total Test Results"])
-                                }
-                                state[i].properties[key] = covid[state_id][key];
+        // Take a 2-column CSV and transform it into a hierarchical structure suitable
+        // for a partition layout. The first column is a sequence of step names, from
+        // root to leaf, separated by hyphens. The second column is a count of how
+        // often that sequence occurred.
+        function buildHierarchy(csv) {
+            var root = {"name": "root", "children": []};
+            for (var i = 0; i < csv.length; i++) {
+                var sequence = csv[i][0];
+                var size = +csv[i][1];
+                if (isNaN(size)) { // e.g. if this is a header row
+                    continue;
+                }
+                var parts = sequence.split("-");
+                var currentNode = root;
+                for (var j = 0; j < parts.length; j++) {
+                    var children = currentNode["children"];
+                    var nodeName = parts[j];
+                    var childNode;
+                    if (j + 1 < parts.length) {
+                        // Not yet at the end of the sequence; move down the tree.
+                        var foundChild = false;
+                        for (var k = 0; k < children.length; k++) {
+                            if (children[k]["name"] == nodeName) {
+                                childNode = children[k];
+                                foundChild = true;
+                                break;
                             }
                         }
-                        us.objects.states.geometries = state;
-                        var scale = d3.scaleCluster()
-                            .domain(domain)
-                            .range(['#FFE5E5', '#FFCCCC', '#FFB2B2', '#FF9999','#FF7F7F', '#FF4C4C']);
-                        g.append("g")
-                            .attr("id", "us")
-                            .attr("stroke","white")
-                            .selectAll("path")
-                            .data(topojson.feature(us, us.objects.states).features)
-                            .enter()
-                            .append("path")
-                            .attr("d", path)
-                            .style("fill", function(d) {
-                                color = scale(parseInt(d.properties["Total Test Results"]));
-                                return color; })
-                            .on("mouseover", function(d){
-                                d3v3.select(this)
-                                    .style("fill", "blueviolet");
-
-                                var prop = d.properties;
-
-                                var string =  "<p><strong>State</strong>: " + prop.State + "</p>";
-                                string += "<p><strong>Total Test Results</strong>: " + prop["Total Test Results"] + "</p>";
-                                string += "<p><strong>Positive</strong>: " + prop["Positive"] + "</p>";
-                                string += "<p><strong>Negative</strong>: " + prop["Negative"] + "</p>";
-                                if(prop.Hospitalized == null){
-                                    string += "<p><strong>Hospitalized</strong>: " + "N/A" + "</p>";
-                                }
-                                else {
-                                    string += "<p><strong>Hospitalized</strong>: " + prop["Hospitalized"] + "</p>";
-                                }
-                                string += "<p><strong>Death</strong>: " + prop["Death"] + "</p>";
-
-                                d3v3.select("#textbox")
-                                    .html("")
-                                    .append("text")
-                                    .html(string)
-                            })
-
-                            .on("mouseout", function(d){
-                                d3v3.select(this)
-                                    .style("fill", function(d) {
-                                        var color = scale(parseInt(d.properties["Total Test Results"])); // '#9E58AF'
-                                        return color; })
-                            })
-                            .attr("opacity", 0.9)
-                            .attr("fill", defaultFill);
-                    })
-                })
-                // via http://stackoverflow.com/a/2901298
-                function numberWithCommas(x) {
-                    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        // If we don't already have a child node for this branch, create it.
+                        if (!foundChild) {
+                            childNode = {"name": nodeName, "children": []};
+                            children.push(childNode);
+                        }
+                        currentNode = childNode;
+                    } else {
+                        // Reached the end of the sequence; create a leaf node.
+                        childNode = {"name": nodeName, "size": size};
+                        children.push(childNode);
+                    }
                 }
-            </script>
-        </diV>
-    </body>
+            }
+            return root;
+        };
+    </script>
+</diV>
+</body>
 </html>
