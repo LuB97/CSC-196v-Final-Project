@@ -535,7 +535,7 @@
 
         // Use d3v3.text and d3v3.csv.parseRows so that we do not need to have a header
         // row, and can receive the csv as an array of arrays.
-        d3v3.text("sunburst.csv", function(text) {
+        d3v3.text("Sunburst.csv", function(text) {
             var csv = d3v3.csv.parseRows(text);
             var json = buildHierarchy(csv);
             createVisualization(json);
