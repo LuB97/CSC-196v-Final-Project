@@ -163,13 +163,8 @@
                         <div id="chart">
                             <div id="explanation" style="visibility: hidden;">
                                 <span id="percentage"></span><br/>
-                                of visits begin with this sequence of pages
                             </div>
                         </div>
-                    </div>
-                    <div id="sidebar">
-                        <input type="checkbox" id="togglelegend"> Legend<br/>
-                        <div id="legend" style="visibility: hidden;"></div>
                     </div>
                 </td>
             </tr>
@@ -445,6 +440,9 @@
         }
     </script>
     <script>
+        var json;
+        var nodes;
+        var cur;
         // Dimensions of sunburst.
         var width = 750;
         var height = 600;
@@ -521,7 +519,7 @@
             .attr("height", height)
             .append("svg:g")
             .attr("id", "container")
-            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
 
         var partition = d3v3.layout.partition()
             .size([2 * Math.PI, radius * radius])
@@ -537,7 +535,7 @@
         // row, and can receive the csv as an array of arrays.
         d3v3.text("Sunburst.csv", function(text) {
             var csv = d3v3.csv.parseRows(text);
-            var json = buildHierarchy(csv);
+            json = buildHierarchy(csv);
             createVisualization(json);
         });
 
@@ -546,20 +544,15 @@
 
             // Basic setup of page elements.
             initializeBreadcrumbTrail();
-            drawLegend();
-            d3v3.select("#togglelegend").on("click", toggleLegend);
 
             // Bounding circle underneath the sunburst, to make it easier to detect
             // when the mouse leaves the parent g.
             vis.append("svg:circle")
                 .attr("r", radius)
-                .style("opacity", 0);
+                .style("opacity", 0)
+                .on("click", ret);
 
-            // For efficiency, filter nodes to keep only those large enough to see.
-            var nodes = partition.nodes(json)
-                .filter(function(d) {
-                    return (d.dx > 0.005); // 0.005 radians = 0.29 degrees
-                });
+            nodes = partition.nodes(json)
 
             var path = vis.data([json]).selectAll("path")
                 .data(nodes)
@@ -569,19 +562,18 @@
                 .attr("fill-rule", "evenodd")
                 .style("fill", function(d) { return colors[d.name]; })
                 .style("opacity", 1)
-                .on("mouseover", mouseover);
+                .on("mouseover", mouseover)
+                .on("click",click);
 
+            cur = nodes[0];
             // Add the mouseleave handler to the bounding circle.
             d3v3.select("#container").on("mouseleave", mouseleave);
-
-            // Get total size of the tree = value of root node from partition.
-            totalSize = path.node().__data__.value;
         };
 
         // Fade all but the current sequence, and show it in the breadcrumb trail.
         function mouseover(d) {
 
-            var percentage = (100 * d.value / totalSize).toPrecision(3);
+            var percentage = (100 * d.value / d.parent.value).toPrecision(3);
             var percentageString = percentage + "%";
             if (percentage < 0.1) {
                 percentageString = "< 0.1%";
@@ -606,6 +598,58 @@
                     return (sequenceArray.indexOf(node) >= 0);
                 })
                 .style("opacity", 1);
+        }
+
+        function click(p) {
+            if(p.name == "Negative" || p.name == "Positive" || p.name == "Untested"){
+                cur = p.parent;
+            }
+            else{
+                cur = p;
+            }
+            vis.selectAll("*").remove();
+
+            vis.append("svg:circle")
+                .attr("r", radius)
+                .style("opacity", 0)
+                .on("click", ret);
+
+            nodes = partition.nodes(cur)
+
+            var path = vis.data([cur]).selectAll("path")
+                .data(nodes)
+                .enter().append("svg:path")
+                .attr("display", function(d) { return d.depth ? null : "none"; })
+                .attr("d", arc)
+                .attr("fill-rule", "evenodd")
+                .style("fill", function(d) { return colors[d.name]; })
+                .style("opacity", 1)
+                .on("mouseover", mouseover)
+                .on("click",click);
+        }
+        function ret() {
+        if(cur.name != "root"){
+            cur = cur.parent;
+        }
+            vis.selectAll("*").remove();
+
+            vis.append("svg:circle")
+                .attr("r", radius)
+                .style("opacity", 0)
+                .on("click", ret);
+
+            nodes = partition.nodes(cur)
+
+            var path = vis.data([cur]).selectAll("path")
+                .data(nodes)
+                .enter().append("svg:path")
+                .attr("display", function(d) { return d.depth ? null : "none"; })
+                .attr("d", arc)
+                .attr("fill-rule", "evenodd")
+                .style("fill", function(d) { return colors[d.name]; })
+                .style("opacity", 1)
+                .on("mouseover", mouseover)
+                .on("click",click);
         }
 
         // Restore everything to full opacity when moving off the visualization.
@@ -713,54 +757,12 @@
 
         }
 
-        function drawLegend() {
-
-            // Dimensions of legend item: width, height, spacing, radius of rounded rect.
-            var li = {
-                w: 75, h: 30, s: 3, r: 3
-            };
-
-            var legend = d3v3.select("#legend").append("svg:svg")
-                .attr("width", li.w)
-                .attr("height", d3v3.keys(colors).length * (li.h + li.s));
-
-            var g = legend.selectAll("g")
-                .data(d3v3.entries(colors))
-                .enter().append("svg:g")
-                .attr("transform", function(d, i) {
-                    return "translate(0," + i * (li.h + li.s) + ")";
-                });
-
-            g.append("svg:rect")
-                .attr("rx", li.r)
-                .attr("ry", li.r)
-                .attr("width", li.w)
-                .attr("height", li.h)
-                .style("fill", function(d) { return d.value; });
-
-            g.append("svg:text")
-                .attr("x", li.w / 2)
-                .attr("y", li.h / 2)
-                .attr("dy", "0.35em")
-                .attr("text-anchor", "middle")
-                .text(function(d) { return d.key; });
-        }
-
-        function toggleLegend() {
-            var legend = d3v3.select("#legend");
-            if (legend.style("visibility") == "hidden") {
-                legend.style("visibility", "");
-            } else {
-                legend.style("visibility", "hidden");
-            }
-        }
-
         // Take a 2-column CSV and transform it into a hierarchical structure suitable
         // for a partition layout. The first column is a sequence of step names, from
         // root to leaf, separated by hyphens. The second column is a count of how
         // often that sequence occurred.
         function buildHierarchy(csv) {
-            var root = {"name": "root", "children": []};
+           var root = {"name": "root", "children": []};
             for (var i = 0; i < csv.length; i++) {
                 var sequence = csv[i][0];
                 var size = +csv[i][1];
