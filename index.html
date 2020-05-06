@@ -1,3 +1,35 @@
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+
+@LuB97
+Learn Git and GitHub without any code!
+Using the Hello World guide, you’ll start a branch, write comments, and open a pull request.
+
+
+LuB97
+/
+CSC-196v-Final-Project
+1
+0
+0
+Code
+Issues 0
+Pull requests 0 Actions
+Projects 0
+Wiki
+Security 0
+Insights
+Settings
+CSC-196v-Final-Project/index.html
+@LuB97 LuB97 Update index.html
+31fa3b9 15 hours ago
+806 lines (703 sloc)  29 KB
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -438,8 +470,7 @@
         function numberWithCommas(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
-    </script>
-    <script>
+
         var json;
         var nodes;
         var cur;
@@ -582,7 +613,27 @@
             d3v3.select("#percentage")
                 .text(percentageString);
 
+            var description = "";
+            var par = d.parent;
+            if(par.name == "root") {
+                description = d.name + " makes up " + percentageString + " of the US population";
+            }
+            else if(d.name == "Untested"){
+                description = percentageString + " of " + par.name + "'s population are untested";
+            }
+            else if(d.name == "Tested"){
+                description = percentageString + " of " + par.name + "'s population are tested";
+            }
+            else if(d.name == "Negative"){
+                description = percentageString + " of " + par.parent.name + "'s tests are Negative";
+            }
+            else if(d.name == "Positive"){
+                description = percentageString + " of " + par.parent.name + "'s tests are Positive";
+            }
+
+
             d3v3.select("#explanation")
+                .text(description)
                 .style("visibility", "");
 
             var sequenceArray = getAncestors(d);
@@ -628,9 +679,9 @@
                 .on("click",click);
         }
         function ret() {
-        if(cur.name != "root"){
-            cur = cur.parent;
-        }
+            if(cur.name != "root"){
+                cur = cur.parent;
+            }
             vis.selectAll("*").remove();
 
             vis.append("svg:circle")
@@ -762,7 +813,7 @@
         // root to leaf, separated by hyphens. The second column is a count of how
         // often that sequence occurred.
         function buildHierarchy(csv) {
-           var root = {"name": "root", "children": []};
+            var root = {"name": "root", "children": []};
             for (var i = 0; i < csv.length; i++) {
                 var sequence = csv[i][0];
                 var size = +csv[i][1];
