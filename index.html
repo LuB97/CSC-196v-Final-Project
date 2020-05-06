@@ -310,21 +310,6 @@
             .text("axis title");
     </script>
     <script>
-        // set the dimensions and margins of the graph
-        var margin = {top: 10, right: 30, bottom: 30, left: 60},
-            width1 = 600 - margin.left - margin.right,
-            height1 = 300 - margin.top - margin.bottom;
-
-        // append the svg object to the body of the page
-        var svg1 = d3v4.select("#my_dataviz2")
-            .append("svg")
-            .attr("width", width1 + margin.left + margin.right)
-            .attr("height", height1 + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform",
-                "translate(" + margin.left + "," + margin.top + ")");
-
-
         <!------------------ map code---------------- !-->
         var width2 = 960,
             height2= 500;
