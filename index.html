@@ -353,6 +353,7 @@
         var g = svg2.append("g");
 
         var defaultFill = "#aaa";
+        var scale;
 
         d3v3.json("us.json", function(error, us) {
 
@@ -371,7 +372,7 @@
                     }
                 }
                 us.objects.states.geometries = state;
-                var scale = d3.scaleCluster()
+                scale = d3.scaleCluster()
                     .domain(domain)
                     .range(['#FFE5E5', '#FFCCCC', '#FFB2B2', '#FF9999','#FF7F7F', '#FF4C4C']);
                 g.append("g")
@@ -385,40 +386,46 @@
                     .style("fill", function(d) {
                         color = scale(parseInt(d.properties["Total Test Results"]));
                         return color; })
-                    .on("mouseover", function(d){
-                        d3v3.select(this)
-                            .style("fill", "blueviolet");
+                    .on("mouseover", mouseover1)
 
-                        var prop = d.properties;
-
-                        var string =  "<p><strong>State</strong>: " + prop.State + "</p>";
-                        string += "<p><strong>Total Test Results</strong>: " + prop["Total Test Results"] + "</p>";
-                        string += "<p><strong>Positive</strong>: " + prop["Positive"] + "</p>";
-                        string += "<p><strong>Negative</strong>: " + prop["Negative"] + "</p>";
-                        if(prop.Hospitalized == null){
-                            string += "<p><strong>Hospitalized</strong>: " + "N/A" + "</p>";
-                        }
-                        else {
-                            string += "<p><strong>Hospitalized</strong>: " + prop["Hospitalized"] + "</p>";
-                        }
-                        string += "<p><strong>Death</strong>: " + prop["Death"] + "</p>";
-
-                        d3v3.select("#textbox")
-                            .html("")
-                            .append("text")
-                            .html(string)
-                    })
-
-                    .on("mouseout", function(d){
-                        d3v3.select(this)
-                            .style("fill", function(d) {
-                                var color = scale(parseInt(d.properties["Total Test Results"])); // '#9E58AF'
-                                return color; })
-                    })
+                    .on("mouseout", mouseout)
                     .attr("opacity", 0.9)
                     .attr("fill", defaultFill);
             })
         })
+        function mouseover1(d){
+            try{
+                var prop = d.properties;
+
+                var string =  "<p><strong>State</strong>: " + prop.State + "</p>";
+                string += "<p><strong>Total Test Results</strong>: " + prop["Total Test Results"] + "</p>";
+                string += "<p><strong>Positive</strong>: " + prop["Positive"] + "</p>";
+                string += "<p><strong>Negative</strong>: " + prop["Negative"] + "</p>";
+                if(prop.Hospitalized == null){
+                    string += "<p><strong>Hospitalized</strong>: " + "N/A" + "</p>";
+                }
+                else {
+                    string += "<p><strong>Hospitalized</strong>: " + prop["Hospitalized"] + "</p>";
+                }
+                string += "<p><strong>Death</strong>: " + prop["Death"] + "</p>";
+
+                d3v3.select("#textbox")
+                    .html("")
+                    .append("text")
+                    .html(string)
+
+                d3v3.select(this)
+                    .style("fill", "blueviolet");
+            }catch(err){
+                mouseover(d);
+            }
+        };
+        function mouseout (d){
+            d3v3.select(this)
+                .style("fill", function(d) {
+                    var color = scale(parseInt(d.properties["Total Test Results"])); // '#9E58AF'
+                    return color; })
+        };
         // via http://stackoverflow.com/a/2901298
         function numberWithCommas(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -546,7 +553,7 @@
                 .attr("fill-rule", "evenodd")
                 .style("fill", function(d) { return colors[d.name]; })
                 .style("opacity", 1)
-                .on("mouseover", mouseover)
+                .on("mouseover", mouseover1)
                 .on("click",click);
 
             cur = nodes[0];
@@ -556,7 +563,6 @@
 
         // Fade all but the current sequence, and show it in the breadcrumb trail.
         function mouseover(d) {
-
             var percentage = (100 * d.value / d.parent.value).toPrecision(3);
             var percentageString = percentage + "%";
             if (percentage < 0.1) {
@@ -568,19 +574,15 @@
 
             var description = "";
             var par = d.parent;
-            if(par.name == "root") {
+            if (par.name == "root") {
                 description = d.name + " makes up " + percentageString + " of the US population";
-            }
-            else if(d.name == "Untested"){
+            } else if (d.name == "Untested") {
                 description = percentageString + " of " + par.name + "'s population are untested";
-            }
-            else if(d.name == "Tested"){
+            } else if (d.name == "Tested") {
                 description = percentageString + " of " + par.name + "'s population are tested";
-            }
-            else if(d.name == "Negative"){
+            } else if (d.name == "Negative") {
                 description = percentageString + " of " + par.parent.name + "'s tests are Negative";
-            }
-            else if(d.name == "Positive"){
+            } else if (d.name == "Positive") {
                 description = percentageString + " of " + par.parent.name + "'s tests are Positive";
             }
 
@@ -598,7 +600,7 @@
 
             // Then highlight only those that are an ancestor of the current segment.
             vis.selectAll("path")
-                .filter(function(node) {
+                .filter(function (node) {
                     return (sequenceArray.indexOf(node) >= 0);
                 })
                 .style("opacity", 1);
@@ -628,7 +630,7 @@
                 .attr("fill-rule", "evenodd")
                 .style("fill", function(d) { return colors[d.name]; })
                 .style("opacity", 1)
-                .on("mouseover", mouseover)
+                .on("mouseover", mouseover1)
                 .on("click",click);
         }
         function ret() {
@@ -652,7 +654,7 @@
                 .attr("fill-rule", "evenodd")
                 .style("fill", function(d) { return colors[d.name]; })
                 .style("opacity", 1)
-                .on("mouseover", mouseover)
+                .on("mouseover", mouseover1)
                 .on("click",click);
         }
 
@@ -672,7 +674,7 @@
                 .duration(1000)
                 .style("opacity", 1)
                 .each("end", function() {
-                    d3v3.select(this).on("mouseover", mouseover);
+                    d3v3.select(this).on("mouseover", mouseover1);
                 });
 
             d3v3.select("#explanation")
