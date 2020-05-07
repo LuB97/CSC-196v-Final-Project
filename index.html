@@ -47,13 +47,20 @@
             font-size: 30px;
         }
 
+        .center{
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+        }
+
         section.a{
             margin: 80px 400px;
         }
 
         /*margins are top right bottom left*/
         section.b{
-            margin: -50px 0 0 20px;
+            margin: -30px 0 0 20px;
         }
 
         section.c{
@@ -65,6 +72,10 @@
         }
 
         h3.graph{
+            margin: 20px 0 -30px 0;
+        }
+
+        h3.static{
             margin: 20px 0 -30px 0;
         }
 
@@ -91,14 +102,14 @@
         p.note{
             font-family: "Lucida Sans Unicode";
             font-size: 12px;
-            margin: 50px 0 0 0 ;
+            margin: 50px 0 50px 0 ;
         }
 
     </style>
 </head>
 <body>
 <div class="header">
-    <h1>COVID-19 in the United States</h1>
+    <h1>COVID-19: <br/> Should States Reopen</h1>
 </div>
 <script src="https://d3js.org/d3.v3.js"></script>
 <script>
@@ -146,9 +157,31 @@
         </p>
     </section>
 
+    <section>
+        <h3 class = "static" align="Center">How does the number of positive results compare to the tests run in each state?</h3>
+        <table align="Center" cellspacing="30" style="width: 1000px">
+            <th>
+                <hr class = "a">
+            </th>
+            <tr>
+                <td>
+
+                </td>
+            </tr>
+        </table>
+        <img src="CovidStatic.png" width="800" height="700" class="center">
+    </section>
+    <section class="b">
+
+        <p class="note" align="Center">
+            The size of the circles shows the amount of testing that the state has done compared to other states. <br>
+            The color of the circles represent the number of positive cases.
+        </p>
+    </section>
+
     <section style="margin: 50px 0 0 0">
-        <h3 class = "graph" align="Center">How each state is doing on testing for COVID-19?</h3>
-        <table align="Center" cellspacing="30">
+        <h3 class = "graph" align="Center">What percent of the population has been tested for COVID-19 in the US?</h3>
+        <table align="Center" cellspacing="20" >
             <th colspan="2">
                 <hr class = "a">
             </th>
@@ -156,31 +189,45 @@
                 <td>
                     <!-- Create a div where the graph will take place -->
                     <div id="main">
-                        <div id="sequence"></div>
-                        <div id="chart">
-                            <div id="explanation" style="visibility: hidden;">
-                                <span id="percentage"></span><br/>
-                            </div>
-                        </div>
-                        <div id="current"></div>
+                        <div id="chart"></div>
                     </div>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    <div id="sequence"></div>
+                    <div id="explanation" style="visibility: hidden;" >
+                        <span id="percentage"></span><br/>
+                    </div>
+                </td>
+
+            </tr>
         </table>
     </section>
+
 
     <section class = "a">
         <h2 align="Center" >Data Analysis</h2>
         <hr>
         <p>
-            From the data we have gathered, you can see that COVID-19 has spread through the United States at an
-            exponential rate. The logic behind its spread is social contact. You can see that at the beginning of
-            March there were very few cases of COVID-19 reported. This can be attributed by the low number of
-            testing available at the time. By the end of March there was a sudden extreme spike in the number of cases.
-            Testing availability has increased by then however the spread of the virus by unsuspecting individuals has
-            already done its damage. This then creates that exponential curve. It can also be observed that certain
-            states where the population is more dense, like in New York, the influx of COVID-19 is much higher
-            than more rural states such as Wyoming and North Dakota.
+            For this project, Bryant and I wanted to explore whether or not reopening the states would be a logical
+            move to make. We first examined the data in regards to how COVID has spread throughout the United States
+            to date. From the first map visual, you can see that there are a number of states, such as California,
+            New York, Texas, and Florida, that have been heavily affected by COVID.
+            From there, we decided it would be a good idea to look into how many people were tested for COVID in each
+            state and the number or test results that actually returned positive. In our visual we annotated two states;
+            New York, because of the high number of positive results that they have seen and California, because that is
+            most relevant to us. The visual showed us that although some states may have a high positive number, it is
+            small in comparison to the number of people that have been tested. A good example of this would be California,
+            where over 700,000 people have been tested but only about 55,000 of those results came back positive.
+            This seemed like evidence that certain states would have reason to be safe for reopening. However, we
+            decided to explore deeper into the data and we compared the number of tests performed to the actual population
+            of the state. A large state like California seems like it has COVID under control. But after analysis we saw
+            that the 700,000 tests performed equivalates to only 1.92% of the entire population. This means that 98% of
+            the state could potentially be positive or asymptomatic. The analysis of just a single state already shows
+            that the United States is not yet equip to reopen their states. More testing would have to be made available
+            and efficiently performed in order to safely reopen states without creating the possibility of a major
+            spike and quickly overburdening hospitals.
         </p>
 
         <h2 align="Center">Visualization</h2>
@@ -190,12 +237,12 @@
         </h3>
         <p>
             With the novel virus COVID-19 spreading at an exponential rate around the globe, we wanted to focus on
-            how it has been affecting us as a country in the Untied States. However, we know that each individual
-            has different concerns. For example, someone with family in New York for example would want to see
-            details in regards to that state. So with that taken into consideration, we decided to allow users
-            to be able to interact with the visual and select certain states that they wanted to expand details on.
-            We also wanted to show how each state compares to one another, so we decided to add a color gradient
-            based one of the big topics on COVID-19: total people tested.
+            how it has been affecting us as a country in the Untied States. However, with the recent talk about
+            states wanting to reopen, we wanted to explore whether or not this made sense. The media is always
+            throwing a bunch of numbers at the public but without any context they do not amount to much. So we
+            wanted to select interactions such as those in the sunburst to give a relation to testing and the
+            population of each state. This way people would have a better understanding of how COVID has been
+            recognized in their community and state.
         </p>
         <h3>
             What alternatives did you consider and how did you arrive at your ultimate choices
@@ -218,23 +265,25 @@
             Roughly how much time did you spend developing your application?
         </h3>
         <p>
-            Bryant and I had spent about 2 hours each to go out and find the best dataset in regards to COVID-19.
+            Bryant and I had spent about 1 hour deciding what our story would be about. After that we had taken
+            about 3 hours each to go out and find additional data in regards to COVID-19.
             Once we had gathered possible options we spent about 1 hour together deciding which sets of data would
-            be useful and how we would present the data in our visualizations. After that, we spent about 2 hours
-            for the data wrangling and deciding how to split up the data for our two visualizations. The HTML and
-            D3 set up took about 9 hrs each totaling to 18 hours in total for this. Our overall project took
-            approximately 23 hours to completely develop
+            be useful most useful to our story and how we would present the data in our visualizations.
+            After that, we spent about 1 hour for the data wrangling and deciding how to split up the data for
+            our two new visualizations. The HTML and D3 set up took about 11 hrs each totaling to 22 hours in
+            total for this. Our overall project took approximately 30 hours to completely develop
         </p>
         <h3>
             What aspects took the most time?
         </h3>
         <p>
-            The most difficult aspects to develop was the D3 visualizations. It took quite some time for us to
-            get a handle on how to create the visualizations. The next difficult task was finding out how to use
-            two separate D3 libraries, since we had created two visuals but we were trying to load both onto a
-            single html page. Once we figured out all the little details it was not too difficult. Getting a
-            good flow to our page layout and making sure it was sensible and presentable was probably the
-            only other aspect that really took a lot of time to plan out.
+            Figuring out how to create the sunburst chart took quite a bit of time. But the largest portion of our
+            time was spent on making it look more aesthetically pleasing. Because there are 50 states that we are
+            trying to show, it first looked cluttered and confusing. But once we added in the zooming and cleaned it
+            up with better borders and coloring, it came out quite nice.
+            The other aspect that was difficult was figuring out the best visuals and datasets to create a cohesive
+            story showing why it would be best to not yet reopen states. Also to show what states can do in order to
+            better prepare themselves for reopening.
         </p>
     </section>
 
@@ -290,11 +339,10 @@
 
         var y = d3.scaleLinear()
             .range([300, 0])
-            .domain([370000, 0]);
-
+            .domain([1100000, 0]);
         var yAxis = d3.axisBottom()
             .scale(y)
-            .ticks(3);
+            .ticks(4);
 
         key.append("g")
             .attr("class", "y axis")
@@ -433,7 +481,7 @@
         var nodes;
         var cur;
         // Dimensions of sunburst.
-        var width = 750;
+        var width = 700;
         var height = 600;
         var radius = Math.min(width, height) / 2;
 
@@ -444,19 +492,19 @@
 
         // Mapping of step names to colors.
         var colors = {
-            "Alabama": "#BF5FFF",
-            "Alaska": "#BDFCC9",
-            "Arizona": "#BCE937",
+            "Alabama": "#8585e0",
+            "Alaska": "#99ebff",
+            "Arizona": "#7070db",
             "Arkansas": "#BDA0CB",
-            "California": "#BBFFFF",
-            "Colorado": "#BCED91",
-            "Connecticut": "#C0C0C0",
-            "Delaware": "#C71585",
+            "California": "#8585e0",
+            "Colorado": "#bf80ff",
+            "Connecticut": "#00cccc",
+            "Delaware": "#ff99e6",
             "Florida": "#C6E2FF",
-            "Georgia": "#CD3700",
+            "Georgia": "#d05fc4",
             "Hawaii": "#CCFFCC",
             "Idaho": "#CD6600",
-            "Illinois": "#CDAB2D",
+            "Illinois": "#0986c7",
             "Indiana": "#CDB5CD",
             "Iowa": "#D02090",
             "Kansas": "#D15FEE",
@@ -473,10 +521,10 @@
             "Nebraska": "#DEB887",
             "Nevada": "#E04006",
             "New Hampshire": "#E0FFFF",
-            "New Jersey": "#E0DFDB",
+            "New Jersey": "#76c293",
             "New Mexico": "#E2DDB5",
-            "New York": "#E32636",
-            "North Carolina": "#E18E2E",
+            "New York": "#5da7cd",
+            "North Carolina": "#cb417b",
             "North Dakota": "#E3E3E3",
             "Ohio": "#EAADEA",
             "Oklahoma": "#5687d1",
@@ -486,17 +534,17 @@
             "South Carolina": "#EE30A7",
             "South Dakota": "#EE5C42",
             "Tennessee": "#EE4000",
-            "Texas": "#EE3B3B",
+            "Texas": "#c8ace5",
             "Utah": "#EE7AE9",
             "Vermont": "#EEC591",
-            "Virginia": "#EEC900",
+            "Virginia": "#29936d",
             "Washington": "#F0FFF0",
             "West Virginia": "#F0FFFF",
             "Wisconsin": "#F2473F",
             "Wyoming": "#BE2625",
-            "Tested": "#ADD8E6",
-            "Untested": "#FFFF99",
-            "Negative": "#90EE90",
+            "Tested": "#90EE90",
+            "Untested": "#86d8e0",
+            "Negative": "#54a2d4",
             "Positive": "#FFCCCB"
         };
 
@@ -508,6 +556,7 @@
             .attr("height", height)
             .append("svg:g")
             .attr("id", "container")
+            .attr("stroke","white")
             .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
 
         var partition = d3v3.layout.partition()
@@ -576,9 +625,9 @@
             if (par.name == "root") {
                 description = d.name + " makes up " + percentageString + " of the US population";
             } else if (d.name == "Untested") {
-                description = percentageString + " of " + par.name + "'s population are untested";
+                description = percentageString + " of " + par.name + "'s population is untested";
             } else if (d.name == "Tested") {
-                description = percentageString + " of " + par.name + "'s population are tested";
+                description = percentageString + " of " + par.name + "'s population is tested";
             } else if (d.name == "Negative") {
                 description = percentageString + " of " + par.parent.name + "'s tests are Negative";
             } else if (d.name == "Positive") {
