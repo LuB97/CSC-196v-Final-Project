@@ -165,6 +165,7 @@
                                 <span id="percentage"></span><br/>
                             </div>
                         </div>
+                        <div id="current"></div>
                     </div>
                 </td>
             </tr>
@@ -557,6 +558,7 @@
                 .on("click",click);
 
             cur = nodes[0];
+            d3v3.select("#current").text("US")
             // Add the mouseleave handler to the bounding circle.
             d3v3.select("#container").on("mouseleave", mouseleave);
         };
@@ -632,6 +634,21 @@
                 .style("opacity", 1)
                 .on("mouseover", mouseover1)
                 .on("click",click);
+
+            var string;
+            if(p.name == "Tested"){
+                string = p.parent.name + "'s Test Results";
+            }
+            else if(p.name == "Untested"){
+                string = p.parent.name
+            }
+            else if(p.name == "Negative" || p.name == "Positive"){
+                string = p.parent.parent.name + "'s Test Results";
+            }
+            else{
+                string = p.name;
+            }
+            d3.select("#current").text(string);
         }
         function ret() {
             if(cur.name != "root"){
@@ -656,6 +673,24 @@
                 .style("opacity", 1)
                 .on("mouseover", mouseover1)
                 .on("click",click);
+
+            var string;
+            if(cur.name == "Tested"){
+                string = cur.parent.name + "'s Test Results";
+            }
+            else if(cur.name == "Untested"){
+                string = cur.parent.name
+            }
+            else if(cur.name == "Negative" || cur.name == "Positive"){
+                string = cur.parent.parent.name + "'s Test Results";
+            }
+            else if(cur.name == "root"){
+                string = "US";
+            }
+            else{
+                string = cur.name;
+            }
+            d3.select("#current").text(string);
         }
 
         // Restore everything to full opacity when moving off the visualization.
